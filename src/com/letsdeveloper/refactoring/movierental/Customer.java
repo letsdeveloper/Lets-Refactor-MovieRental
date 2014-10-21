@@ -20,19 +20,44 @@ public class Customer {
 	}
 	
 	public String statement() {
-		double totalAmount = 0;
-		int totalFrequentRenterPoints = 0;
 		String result = "Rental Record for " + getName() + "\n";
 		for (Rental each : rentals) {
 			// show figures for this rental
-			result += "\t" + each.getMovie().getTitle() + "\t" + String.valueOf(each.getCharge()) + "\n";
-			
-			totalAmount += each.getCharge();
-			totalFrequentRenterPoints += each.getFrequentRenterPoints();
+			result += "\t" + each.getMovie().getTitle() + "\t" + each.getCharge() + "\n";
 		}
 		// add footer lines
-		result += "Amount owed is " + String.valueOf(totalAmount) + "\n";
-		result += "You earned " + String.valueOf(totalFrequentRenterPoints) + " frequent renter points";
+		result += "Amount owed is " + getTotalCharge() + "\n";
+		result += "You earned " + getTotalFrequentRenterPoints() + " frequent renter points";
 		return result;
+	}
+	
+	public String htmlStatement() {
+		String result = "<h1>Rental Record for <em>" + getName() + "</em></h1>";
+		result += "<table><tbody>";
+		for (Rental each : rentals) {
+			// show figures for this rental
+			result += "<tr><td>" + each.getMovie().getTitle() + "</td><td>" + each.getCharge() + "</td></tr>";
+		}
+		result += "</tbody></table>";
+		// add footer lines
+		result += "<p>Amount owed is <em>" + getTotalCharge() + "</em></p>";
+		result += "<p>You earned <em>" + getTotalFrequentRenterPoints() + "</em> frequent renter points</p>";
+		return result;
+	}
+
+	private double getTotalCharge() {
+		double totalCharge = 0;
+		for (Rental each : rentals) {
+			totalCharge += each.getCharge();
+		}
+		return totalCharge;
+	}
+
+	private int getTotalFrequentRenterPoints() {
+		int totalFrequentRenterPoints = 0;
+		for (Rental each : rentals) {
+			totalFrequentRenterPoints += each.getFrequentRenterPoints();
+		}
+		return totalFrequentRenterPoints;
 	}
 }
