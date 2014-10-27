@@ -24,4 +24,34 @@ public class Movie {
 	public void setPriceCode(int priceCode) {
 		this.priceCode = priceCode;
 	}
+
+	double getCharge(int numberOfDaysRented) {
+		double result = 0;
+		switch (getPriceCode()) {
+		case Movie.REGULAR:
+			result += 2;
+			if (numberOfDaysRented > 2) {
+				result += (numberOfDaysRented - 2) * 1.5;
+			}
+			break;
+		case Movie.NEW_RELEASE:
+			result += numberOfDaysRented * 3;
+			break;
+		case Movie.CHILDRENS:
+			result += 1.5;
+			if (numberOfDaysRented > 3){
+				result += (numberOfDaysRented - 3) * 1.5;
+			}
+			break;
+		}
+		return result;
+	}
+
+	int getFrequentRenterPoints(int numberOfDaysRented) {
+		if ((getPriceCode() == Movie.NEW_RELEASE) && numberOfDaysRented > 1) {
+			return 2;
+		} else {
+			return 1;
+		}
+	}
 }
